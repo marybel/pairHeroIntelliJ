@@ -13,9 +13,11 @@ public class Timer implements Runnable {
 	private Game game;
 	private int countdownInSeconds = _25_MINS;
 	private boolean stopTimerSignal;
+	private boolean hasEverBeenStarted = false;
 
 	public void start(Game game) {
 		this.game = game;
+		this.hasEverBeenStarted = true;
 		run();
 	}
 
@@ -39,11 +41,13 @@ public class Timer implements Runnable {
 		});
 		timer.setRepeats(false);
 		timer.start();
-		// PlatformUI.getWorkbench().getDisplay().timerExec(ONE_SECOND, this);
 	}
 
 	public void stop() {
 		stopTimerSignal = true;
 	}
 
+	public boolean isRunning() {
+		return hasEverBeenStarted && !stopTimerSignal;
+	}
 }

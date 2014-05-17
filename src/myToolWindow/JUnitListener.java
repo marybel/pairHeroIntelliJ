@@ -9,24 +9,20 @@ import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowEP;
 import com.intellij.openapi.wm.ToolWindowFactory;
 import com.intellij.openapi.wm.ToolWindowManager;
-import myToolWindow.game.Game;
 
 public class JUnitListener extends TestStatusListener {
+	public static final String TOOL_WINDOW_ID = "PairHero";
+
 	private ToolWindow myToolWindow;
 	private Boolean previousTestPassed = Boolean.TRUE;
 
-	// implements IDEAJUnitListener {
-	public JUnitListener() {
-		System.out.println("Instance of JUnitListener");
-	}
 
 	@Override
 	public void testSuiteFinished(AbstractTestProxy abstractTestProxy) {
-		System.out.println("testSuiteFinished. isPassed = " + abstractTestProxy.isPassed());
-		myToolWindow = ToolWindowManager.getInstance(getProject()).getToolWindow("Sample Calendar");
+		myToolWindow = ToolWindowManager.getInstance(getProject()).getToolWindow(TOOL_WINDOW_ID);
 		MyToolWindowFactory myToolWindowFactory = getToolWindowFactory(myToolWindow);
-		System.out.println("myToolWindowFactory = " + myToolWindowFactory);
-		if (myToolWindowFactory != null) {
+
+		if (myToolWindowFactory != null && myToolWindowFactory.isGameOngoing()) {
 			notifyPluginTestSuiteFinished(myToolWindowFactory, abstractTestProxy);
 		}
 
@@ -47,7 +43,6 @@ public class JUnitListener extends TestStatusListener {
 		Project[] AllProjects = PM.getOpenProjects();
 		for (Project proj : AllProjects) {
 			System.out.println("proj.getName() = " + proj.getName());
-
 		}
 		return AllProjects[0];
 	}
@@ -62,31 +57,6 @@ public class JUnitListener extends TestStatusListener {
 		return null;
 	}
 
-
-	private Game game;
-
-	// assuming that the first test was green makes the role switch on the first
-	// test failure.
-
-	// private MyTestListener listener;
-
-	// public JUnitSubscriber() {
-	// listener = new MyTestListener();
-	// registerTestRuns();
-	// }
-
-	public void subscribe(Game game) {
-		this.game = game;
-	}
-
-	// public void unregister() {
-	// JUnitCore.removeTestRunListener(listener);
-	// }
-	//
-	// void registerTestRuns() {
-	// JUnitCore.addTestRunListener(listener);
-	// }
-
 	void onTestPass(MyToolWindowFactory myToolWindowFactory) {
 		previousTestPassed = Boolean.TRUE;
 		myToolWindowFactory.onGreenTest();
@@ -100,5 +70,4 @@ public class JUnitListener extends TestStatusListener {
 		}
 		previousTestPassed = Boolean.FALSE;
 	}
-
 }

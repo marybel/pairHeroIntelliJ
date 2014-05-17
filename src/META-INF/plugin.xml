@@ -22,7 +22,7 @@
 
   <extensions defaultExtensionNs="com.intellij">
     <!-- Add your extensions here -->                       
-     <toolWindow id="Sample Calendar"   secondary="true" icon="/general/add.png" anchor="right" factoryClass="myToolWindow.MyToolWindowFactory"   >
+     <toolWindow id="PairHero"   secondary="true" icon="/myToolWindow/icons/sword.png" anchor="right" factoryClass="myToolWindow.MyToolWindowFactory"   >
 
      </toolWindow>
       <testStatusListener implementation="myToolWindow.JUnitListener"/>

@@ -5,18 +5,16 @@ import javax.swing.*;
 import myToolWindow.time.TimeFormatter;
 
 public class Programmer {
-
 	public static final String ICONS_PATH = "/myToolWindow/icons/";
+	private static Color DRIVER_COLOR;
+	private static Color OBSERVER_COLOR;
+
 	private JLabel nameLabel;
 	private JLabel roleLabel;
 	private JLabel timeAtKeyboardLabel;
 	private JLabel avatar;
-
 	private Role currentRole;
 	private int timeAtKeyboard;
-
-	private static Color DRIVER_COLOR;
-	private static Color OBSERVER_COLOR;
 	private JPanel panel;
 
 	enum Role {
@@ -29,34 +27,24 @@ public class Programmer {
 	}
 
 	void initializeUIControls(JPanel programmerPanel) {
-		DRIVER_COLOR = new Color(/* PlatformUI.getWorkbench().getDisplay(), */58, 170, 53);
-		OBSERVER_COLOR = new Color(/* PlatformUI.getWorkbench().getDisplay(), */218, 218, 218);
+		DRIVER_COLOR = new Color(58, 170, 53);
+		OBSERVER_COLOR = new Color(218, 218, 218);
 
-		nameLabel = new JLabel("Press start to add Player");
+		nameLabel = new JLabel("Player");
 		programmerPanel.add(nameLabel);
 
-		// GridData nameGridData = new GridData(GridData.FILL_BOTH);
-		// nameGridData.horizontalSpan = 2;
-		// nameLabel.setLayoutData(nameGridData);
-
-		avatar = new JLabel(getImageIcon("no-avatar.png"));
+		avatar = new JLabel(getImageIcon("no-avatar"));
 		programmerPanel.add(avatar);
-		// avatar.setImage(Activator.getDefault().getImageFromKey("no-avatar"));
-		// GridData avatarGridData = new GridData(GridData.FILL_BOTH);
-		// avatarGridData.horizontalSpan = 2;
-		// avatar.setLayoutData(avatarGridData);
 
-		roleLabel = new JLabel(getImageIcon("red-keyboard.png"));
+		roleLabel = new JLabel(getImageIcon("red-keyboard"));
 		programmerPanel.add(roleLabel);
-		// roleLabel.setImage(Activator.getImageDescriptor("icons/red-keyboard.png").createImage());
-
+		
 		timeAtKeyboardLabel = new JLabel("00:00");
 		programmerPanel.add(timeAtKeyboardLabel);
 	}
 
 	private ImageIcon getImageIcon(String imageName) {
-		return new ImageIcon(getClass().getResource(ICONS_PATH +
-				imageName) + ".png");
+		return new ImageIcon(getClass().getResource(ICONS_PATH + imageName + ".png"));
 	}
 
 	public void drive() {
@@ -89,27 +77,17 @@ public class Programmer {
 	}
 
 	void updateRole(final Role role) {
-		// PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
-		// @Override
-		// public void run() {
 		if (role.equals(Role.Driving)) {
-			roleLabel.setIcon(getImageIcon("green-keyboard.png"));
+			roleLabel.setIcon(getImageIcon("green-keyboard"));
 			panel.setBackground(DRIVER_COLOR);
 		} else {
-			roleLabel.setIcon(getImageIcon("red-keyboard.png"));
+			roleLabel.setIcon(getImageIcon("red-keyboard"));
 			panel.setBackground(OBSERVER_COLOR);
 		}
-		// }
-		// });
 	}
 
 	void updateTimeAtKeyboard(final int seconds) {
-		// PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
-		// @Override
-		// public void run() {
 		timeAtKeyboardLabel.setText(TimeFormatter.formatTime(seconds));
-		// }
-		// });
 	}
 
 	public void resetStats() {
@@ -118,11 +96,6 @@ public class Programmer {
 	}
 
 	public void setAvatar(final String avatarImage) {
-		// PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
-		// @Override
-		// public void run() {
 		avatar.setIcon(getImageIcon(avatarImage));
-		// }
-		// });
 	}
 }

@@ -22,16 +22,13 @@ import myToolWindow.time.Timer;
  * Time: 2:09:00 PM
  */
 public class MyToolWindowFactory implements ToolWindowFactory {
-
-	public static final String NO_RUN = "No run";
 	public static final String BUTTON_LABEL_START = "Start";
 	public static final String BUTTON_LABEL_STOP = "Stop";
-	public static final String ICONS_PATH = "/myToolWindow/icons/";
+	public static final String ICONS_PATH = "icons/";
 
 	private int messageDelayCounter;
 
 	private JButton startGameButton;
-
 	private JPanel myToolWindowContent;
 	private JPanel leftProgrammerPanel;
 	private JPanel rightProgrammerPanel;
@@ -39,15 +36,14 @@ public class MyToolWindowFactory implements ToolWindowFactory {
 	private JLabel scoreLabel;
 	private JLabel timerLabel;
 	private JLabel messageLabel;
-	private ToolWindow myToolWindow;
-	private Project myProject;
 
 	private Game game;
-	Scoreboard scoreboard;
-	Programmer leftProgrammer;
-	Programmer rightProgrammer;
+	private Scoreboard scoreboard;
+	private Programmer leftProgrammer;
+	private Programmer rightProgrammer;
 
 	public MyToolWindowFactory() {
+		scoreboard = new Scoreboard();
 
 		startGameButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -59,52 +55,34 @@ public class MyToolWindowFactory implements ToolWindowFactory {
 				}
 			}
 		});
-
 	}
 
 	// Create the tool window content.
 	public void createToolWindowContent(Project project, ToolWindow toolWindow) {
-		myToolWindow = toolWindow;
-		myProject = project;
 		ContentFactory contentFactory = ContentFactory.SERVICE.getInstance();
 		Content content = contentFactory.createContent(myToolWindowContent, "", false);
 		toolWindow.getContentManager().addContent(content);
 
 		leftProgrammer = new Programmer(leftProgrammerPanel);
-		// myToolWindowContent.add(leftProgrammerPanel);
-
 		rightProgrammer = new Programmer(rightProgrammerPanel);
-		// myToolWindowContent.add(rightProgrammerPanel);
-
-		scoreboard = new Scoreboard();
 		createScoreArea(scorePanel);
-		// myToolWindowContent.add(scorePanel);
 	}
 
-
-
-
-
-
-
-
 	private void createScoreArea(JPanel scorePanel) {
-		// scoreAreaComposite = new Composite(parent, SWT.BORDER);
-		// scoreAreaComposite.setLayout(createLayout());
-		JComponent line1 = new JPanel(new GridLayout(0, 2));
+		JComponent line1 = new JPanel(new GridLayout(2, 1));
 		line1.add(new JLabel("Score: "));
 		scoreLabel = new JLabel("0");
 		line1.add(scoreLabel);
 		scorePanel.add(line1);
 
-		JComponent line2 = new JPanel(new GridLayout(0, 2));
+		JComponent line2 = new JPanel(new GridLayout(2, 1));
 		messageLabel = new JLabel(getImageIcon("blank"));
 		line2.add(messageLabel);
 		scorePanel.add(line2);
 
-		JComponent line3 = new JPanel(new GridLayout(0, 2));
+		JComponent line3 = new JPanel(new GridLayout(2, 1));
 		line3.add(new JLabel("Time Left: "));
-		timerLabel = new JLabel("25:00");
+		this.timerLabel = new JLabel("25:00");
 		line3.add(timerLabel);
 		scorePanel.add(line3);
 	}
@@ -123,56 +101,36 @@ public class MyToolWindowFactory implements ToolWindowFactory {
 
 	private boolean ableToCreatePlayers() {
 		// TODO: Add dialog to set names and player avatars
-		// StartDialog dialog = new
-		// StartDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
-		// dialog.open();
-
-		// if (dialog.getReturnCode() == Dialog.OK) {
 		leftProgrammer.resetStats();
 		rightProgrammer.resetStats();
-		leftProgrammer.setName("leftProgrammer"/* dialog.getPlayerOneName() */);
-		rightProgrammer.setName("rightProgrammer"/* dialog.getPlayerTwoName() */);
+		leftProgrammer.setName("Explorer");
+		rightProgrammer.setName("Wizard"/* dialog.getPlayerTwoName() */);
 		leftProgrammer.setAvatar("explorator"/* dialog.getPlayerOneAvatar() */);
 		rightProgrammer.setAvatar("wizard"/* dialog.getPlayerTwoAvatar() */);
 		scoreboard.resetStats();
 		updateScore(scoreLabel, Long.toString(scoreboard.getScore()));
 
 		return true;
-		// }
-
-		// return false;
 	}
 
 	public void onGameFinished() {
-		// TODO: DIALOG
-		// EndDialog dialog = new
-		// EndDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-		// scoreboard);
-		// dialog.open();
+		// TODO: Dialog to show score???
 		startGameButton.setText(BUTTON_LABEL_START);
 	}
 
 	public void onTimeChange(int timeInSeconds) {
-		updateScore(timerLabel, TimeFormatter.formatTime(timeInSeconds));
+		updateScore(this.timerLabel, TimeFormatter.formatTime(timeInSeconds));
 		updateMessageToDefault();
-		game.onTimeChange(timeInSeconds);
 	}
 
-	private void updateScore(final JLabel label, final String text) {
+	private void updateScore(JLabel label, final String text) {
 		label.setText(text);
-		// scoreAreaComposite.layout();
 	}
 
 	public void onStop() {
 		// TODO: Add confirmation dialog
-		// boolean response =
-		// MessageDialog.openConfirm(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-		// "Pair Hero", "Are you sure you want to stop this session?");
-		// if (response) {
 		game.stop();
 		startGameButton.setText(BUTTON_LABEL_START);
-		// stopButton.setEnabled(false);
-		// }
 	}
 
 	public void onSwitchRole() {
@@ -208,9 +166,7 @@ public class MyToolWindowFactory implements ToolWindowFactory {
 	}
 
 	private void updateMessage(final JLabel label, final ImageIcon image) {
-
 		label.setIcon(image);
-
 	}
 
 	private String getSwitchRoleImage() {
@@ -225,14 +181,17 @@ public class MyToolWindowFactory implements ToolWindowFactory {
 	}
 
 	private ImageIcon getImageIcon(String imageName) {
-		return new ImageIcon(getClass().getResource(ICONS_PATH +
-				imageName) + ".png");
+		return new ImageIcon(getClass().getResource(ICONS_PATH + imageName + ".png"));
 	}
 
 	private void createUIComponents() {
 		// TODO: place custom component creation code here
-		leftProgrammerPanel = new JPanel(new GridLayout(0, 4));
-		rightProgrammerPanel = new JPanel(new GridLayout(0, 4));
-		scorePanel = new JPanel(new GridLayout(0, 3));
+		leftProgrammerPanel = new JPanel(new GridLayout(4, 1));
+		rightProgrammerPanel = new JPanel(new GridLayout(4, 1));
+		scorePanel = new JPanel(new GridLayout(3, 1));
+	}
+
+	public boolean isGameOngoing() {
+		return game != null && game.isOnGoing();
 	}
 }
