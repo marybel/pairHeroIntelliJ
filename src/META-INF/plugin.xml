@@ -6,7 +6,8 @@
     <!--
     <idea-version since-build="8000"/>
     -->
-  <application-components>
+    <depends>JUnit</depends>
+    <application-components>
     <!-- Add your application components here -->
   </application-components>
 
@@ -22,7 +23,8 @@
   <extensions defaultExtensionNs="com.intellij">
     <!-- Add your extensions here -->                       
      <toolWindow id="Sample Calendar"   secondary="true" icon="/general/add.png" anchor="right" factoryClass="myToolWindow.MyToolWindowFactory"   >
-         
+
      </toolWindow>
+      <testStatusListener implementation="myToolWindow.JUnitListener"/>
   </extensions>
 </idea-plugin>

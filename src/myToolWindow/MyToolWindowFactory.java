@@ -5,11 +5,10 @@ import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowFactory;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentFactory;
-
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
+import javax.swing.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -19,16 +18,17 @@ import java.util.Calendar;
  */
 public class MyToolWindowFactory implements ToolWindowFactory {
 
-    private JButton refreshToolWindowButton;
+
+	private JButton refreshToolWindowButton;
     private JButton hideToolWindowButton;
     private JLabel currentDate;
     private JLabel currentTime;
     private JLabel timeZone;
     private JPanel myToolWindowContent;
     private ToolWindow myToolWindow;
+	private Project myProject;
 
-
-    public MyToolWindowFactory() {
+	public MyToolWindowFactory() {
         hideToolWindowButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
              myToolWindow.hide(null);
@@ -44,11 +44,11 @@ public class MyToolWindowFactory implements ToolWindowFactory {
     // Create the tool window content.
     public void createToolWindowContent(Project project, ToolWindow toolWindow) {
         myToolWindow = toolWindow;
+		myProject = project;
         this.currentDateTime();
         ContentFactory contentFactory = ContentFactory.SERVICE.getInstance();
         Content content = contentFactory.createContent(myToolWindowContent, "", false);
         toolWindow.getContentManager().addContent(content);
-
     }
 
     public void currentDateTime() {
@@ -72,8 +72,6 @@ public class MyToolWindowFactory implements ToolWindowFactory {
         str_gmt_Offset = (gmt_Offset > 0) ? "GMT + " + str_gmt_Offset : "GMT - " + str_gmt_Offset;
         timeZone.setText(str_gmt_Offset);
         timeZone.setIcon(new ImageIcon(getClass().getResource("/myToolWindow/Time-zone-icon.png")));
-
-
     }
 
 }
