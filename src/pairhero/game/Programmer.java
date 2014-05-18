@@ -1,11 +1,11 @@
-package myToolWindow.game;
+package pairhero.game;
 
 import java.awt.*;
 import javax.swing.*;
-import myToolWindow.time.TimeFormatter;
+import pairhero.time.TimeFormatter;
 
 public class Programmer {
-	public static final String ICONS_PATH = "/myToolWindow/icons/";
+	public static final String ICONS_PATH = "/pairhero/icons/";
 	private static Color DRIVER_COLOR;
 	private static Color OBSERVER_COLOR;
 

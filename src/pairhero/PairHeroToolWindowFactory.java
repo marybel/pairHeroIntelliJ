@@ -1,4 +1,4 @@
-package myToolWindow;
+package pairhero;
 
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
@@ -9,11 +9,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
-import myToolWindow.game.Game;
-import myToolWindow.game.Programmer;
-import myToolWindow.game.Scoreboard;
-import myToolWindow.time.TimeFormatter;
-import myToolWindow.time.Timer;
+import pairhero.game.Game;
+import pairhero.game.Programmer;
+import pairhero.game.Scoreboard;
+import pairhero.time.TimeFormatter;
+import pairhero.time.Timer;
 
 /**
  * IntelliJ version of the <a href="http://www.happyprog.com/pairhero/">PairHero

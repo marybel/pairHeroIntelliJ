@@ -1,9 +1,9 @@
-package myToolWindow.time;
+package pairhero.time;
 
 import com.intellij.util.ui.UIUtil;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import myToolWindow.game.Game;
+import pairhero.game.Game;
 
 public class Timer implements Runnable {
 

@@ -1,4 +1,4 @@
-package myToolWindow
+package pairhero
 
 import com.intellij.execution.testframework.AbstractTestProxy
 import spock.lang.Specification

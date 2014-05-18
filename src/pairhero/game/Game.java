@@ -1,7 +1,7 @@
-package myToolWindow.game;
+package pairhero.game;
 
-import myToolWindow.PairHeroToolWindowFactory;
-import myToolWindow.time.Timer;
+import pairhero.PairHeroToolWindowFactory;
+import pairhero.time.Timer;
 
 public class Game {
 

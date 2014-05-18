@@ -1,4 +1,4 @@
-package myToolWindow.game;
+package pairhero.game;
 
 public class Scoreboard {
 

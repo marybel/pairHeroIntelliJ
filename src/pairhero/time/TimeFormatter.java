@@ -1,4 +1,4 @@
-package myToolWindow.time;
+package pairhero.time;
 
 public class TimeFormatter {
 
