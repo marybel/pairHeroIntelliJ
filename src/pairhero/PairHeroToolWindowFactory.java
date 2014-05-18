@@ -1,7 +1,9 @@
 package pairhero;
 
+import com.intellij.openapi.extensions.Extensions;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
+import com.intellij.openapi.wm.ToolWindowEP;
 import com.intellij.openapi.wm.ToolWindowFactory;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentFactory;
@@ -51,6 +53,21 @@ public class PairHeroToolWindowFactory implements ToolWindowFactory {
 				}
 			}
 		});
+	}
+
+	public static PairHeroToolWindowFactory getToolWindowFactory() {
+		try {
+			ToolWindowEP[] toolWindowExtensionPoints = Extensions.getExtensions(ToolWindowEP.EP_NAME);
+			for (final ToolWindowEP toolWindowEP : toolWindowExtensionPoints) {
+				ToolWindowFactory toolWindowFactory = toolWindowEP.getToolWindowFactory();
+				if (toolWindowFactory instanceof PairHeroToolWindowFactory) {
+					return (PairHeroToolWindowFactory) toolWindowFactory;
+				}
+			}
+		} catch (IllegalArgumentException ex) {
+			ex.printStackTrace();
+		}
+		return null;
 	}
 
 	// Create the tool window content.
@@ -136,7 +153,7 @@ public class PairHeroToolWindowFactory implements ToolWindowFactory {
 
 	public void onRefactoring() {
 		scoreboard.addRefactoring();
-		showMessageAndUpdateScore("refactoring", scoreboard.getScore());
+		showMessageAndUpdateScore("refactor", scoreboard.getScore());
 	}
 
 	public void onGreenTest() {

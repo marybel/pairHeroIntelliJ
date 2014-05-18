@@ -2,19 +2,15 @@ package pairhero;
 
 import com.intellij.execution.testframework.AbstractTestProxy;
 import com.intellij.execution.testframework.TestStatusListener;
-import com.intellij.openapi.extensions.Extensions;
-import com.intellij.openapi.wm.ToolWindowEP;
-import com.intellij.openapi.wm.ToolWindowFactory;
 
 //TODO: Make this into a state machine that can prevent green test from counting when they should not.
 //TODO: Add logging
 public class JUnitListener extends TestStatusListener {
-
-	PairHeroToolWindowFactory pairHeroToolWindowFactory;
+	private PairHeroToolWindowFactory pairHeroToolWindowFactory;
 	private Boolean previousTestPassed;
 
 	public JUnitListener() {
-		pairHeroToolWindowFactory = getToolWindowFactory();
+		pairHeroToolWindowFactory = PairHeroToolWindowFactory.getToolWindowFactory();
 	}
 
 	@Override
@@ -26,21 +22,6 @@ public class JUnitListener extends TestStatusListener {
 				forgetPreviousTestResult();
 			}
 		}
-	}
-
-	private PairHeroToolWindowFactory getToolWindowFactory() {
-		try {
-			ToolWindowEP[] toolWindowExtensionPoints = Extensions.getExtensions(ToolWindowEP.EP_NAME);
-			for (final ToolWindowEP toolWindowEP : toolWindowExtensionPoints) {
-				ToolWindowFactory toolWindowFactory = toolWindowEP.getToolWindowFactory();
-				if (toolWindowFactory instanceof PairHeroToolWindowFactory) {
-					return (PairHeroToolWindowFactory) toolWindowFactory;
-				}
-			}
-		} catch (IllegalArgumentException ex) {
-			ex.printStackTrace();
-		}
-		return null;
 	}
 
 	private void forgetPreviousTestResult() {
@@ -63,7 +44,7 @@ public class JUnitListener extends TestStatusListener {
 		previousTestPassed = Boolean.TRUE;
 	}
 
-	void onTestFailed() {
+	private void onTestFailed() {
 		if (previousTestPassed != Boolean.FALSE) {
 			pairHeroToolWindowFactory.onSwitchRole();
 		}

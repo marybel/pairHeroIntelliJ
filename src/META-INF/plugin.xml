@@ -22,9 +22,10 @@
 
   <extensions defaultExtensionNs="com.intellij">
     <!-- Add your extensions here -->                       
-     <toolWindow id="PairHero" secondary="true" icon="/pairhero/icons/icon.png" anchor="right" factoryClass="pairhero.PairHeroToolWindowFactory"   >
+     <toolWindow id="PairHero" secondary="true" icon="/pairhero/icons/icon.png" anchor="right" factoryClass="pairhero.PairHeroToolWindowFactory">
 
      </toolWindow>
       <testStatusListener implementation="pairhero.JUnitListener"/>
+      <refactoring.helper implementation="pairhero.RefactoringHelperListener"/>
   </extensions>
 </idea-plugin>
