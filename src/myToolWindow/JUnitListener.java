@@ -3,70 +3,69 @@ package myToolWindow;
 import com.intellij.execution.testframework.AbstractTestProxy;
 import com.intellij.execution.testframework.TestStatusListener;
 import com.intellij.openapi.extensions.Extensions;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.project.ProjectManager;
-import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowEP;
 import com.intellij.openapi.wm.ToolWindowFactory;
-import com.intellij.openapi.wm.ToolWindowManager;
 
+//TODO: Make this into a state machine that can prevent green test from counting when they should not.
+//TODO: Add logging
 public class JUnitListener extends TestStatusListener {
-	public static final String TOOL_WINDOW_ID = "PairHero";
 
-	private ToolWindow myToolWindow;
-	private Boolean previousTestPassed = Boolean.TRUE;
+	PairHeroToolWindowFactory pairHeroToolWindowFactory;
+	private Boolean previousTestPassed;
 
+	public JUnitListener() {
+		pairHeroToolWindowFactory = getToolWindowFactory();
+	}
 
 	@Override
 	public void testSuiteFinished(AbstractTestProxy abstractTestProxy) {
-		myToolWindow = ToolWindowManager.getInstance(getProject()).getToolWindow(TOOL_WINDOW_ID);
-		MyToolWindowFactory myToolWindowFactory = getToolWindowFactory(myToolWindow);
-
-		if (myToolWindowFactory != null && myToolWindowFactory.isGameOngoing()) {
-			notifyPluginTestSuiteFinished(myToolWindowFactory, abstractTestProxy);
+		if (pairHeroToolWindowFactory != null) {
+			if (pairHeroToolWindowFactory.isGameOngoing()) {
+				notifyTestSuiteFinished(abstractTestProxy);
+			} else {
+				forgetPreviousTestResult();
+			}
 		}
-
 	}
 
-	private void notifyPluginTestSuiteFinished(MyToolWindowFactory myToolWindowFactory,
-			AbstractTestProxy abstractTestProxy) {
-		if (abstractTestProxy.isPassed()) {
-			onTestPass(myToolWindowFactory);
-		} else {
-			onTestFailed(myToolWindowFactory);
-		}
-
-	}
-
-	private Project getProject() {
-		ProjectManager PM = ProjectManager.getInstance();
-		Project[] AllProjects = PM.getOpenProjects();
-		for (Project proj : AllProjects) {
-			System.out.println("proj.getName() = " + proj.getName());
-		}
-		return AllProjects[0];
-	}
-
-	private MyToolWindowFactory getToolWindowFactory(ToolWindow myToolWindow) {
-		ToolWindowEP[] beans = Extensions.getExtensions(ToolWindowEP.EP_NAME);
-		for (final ToolWindowEP toolWindowEP : beans) {
-			ToolWindowFactory toolWindowFactory = toolWindowEP.getToolWindowFactory();
-			if (toolWindowFactory instanceof MyToolWindowFactory)
-				return (MyToolWindowFactory) toolWindowFactory;
+	private PairHeroToolWindowFactory getToolWindowFactory() {
+		try {
+			ToolWindowEP[] toolWindowExtensionPoints = Extensions.getExtensions(ToolWindowEP.EP_NAME);
+			for (final ToolWindowEP toolWindowEP : toolWindowExtensionPoints) {
+				ToolWindowFactory toolWindowFactory = toolWindowEP.getToolWindowFactory();
+				if (toolWindowFactory instanceof PairHeroToolWindowFactory) {
+					return (PairHeroToolWindowFactory) toolWindowFactory;
+				}
+			}
+		} catch (IllegalArgumentException ex) {
+			ex.printStackTrace();
 		}
 		return null;
 	}
 
-	void onTestPass(MyToolWindowFactory myToolWindowFactory) {
-		previousTestPassed = Boolean.TRUE;
-		myToolWindowFactory.onGreenTest();
-
+	private void forgetPreviousTestResult() {
+		previousTestPassed = null;
 	}
 
-	void onTestFailed(MyToolWindowFactory myToolWindowFactory) {
-		if (previousTestPassed == Boolean.TRUE) {
-			myToolWindowFactory.onSwitchRole();
+	private void notifyTestSuiteFinished(
+			AbstractTestProxy abstractTestProxy) {
+		if (abstractTestProxy.isPassed()) {
+			onTestPass();
+		} else {
+			onTestFailed();
+		}
+	}
 
+	private void onTestPass() {
+		if (previousTestPassed == Boolean.FALSE) {
+			pairHeroToolWindowFactory.onGreenTest();
+		}
+		previousTestPassed = Boolean.TRUE;
+	}
+
+	void onTestFailed() {
+		if (previousTestPassed != Boolean.FALSE) {
+			pairHeroToolWindowFactory.onSwitchRole();
 		}
 		previousTestPassed = Boolean.FALSE;
 	}

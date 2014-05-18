@@ -1,6 +1,6 @@
 <idea-plugin version="2">
-  <name>Tool Window</name>
-  <description>This sample plugin illustrates how to create your custom tool window.</description>
+  <name>PairHero</name>
+  <description>IntelliJ version of PairHero plugin http://www.happyprog.com/pairhero/</description>
   <version>1.0</version>
   <vendor>JetBrains</vendor>
     <!--
@@ -22,7 +22,7 @@
 
   <extensions defaultExtensionNs="com.intellij">
     <!-- Add your extensions here -->                       
-     <toolWindow id="PairHero"   secondary="true" icon="/myToolWindow/icons/sword.png" anchor="right" factoryClass="myToolWindow.MyToolWindowFactory"   >
+     <toolWindow id="PairHero" secondary="true" icon="/myToolWindow/icons/icon.png" anchor="right" factoryClass="myToolWindow.PairHeroToolWindowFactory"   >
 
      </toolWindow>
       <testStatusListener implementation="myToolWindow.JUnitListener"/>

@@ -1,17 +1,17 @@
 package myToolWindow.game;
 
-import myToolWindow.MyToolWindowFactory;
+import myToolWindow.PairHeroToolWindowFactory;
 import myToolWindow.time.Timer;
 
 public class Game {
 
 	private final Timer timer;
-	private final MyToolWindowFactory view;
+	private final PairHeroToolWindowFactory view;
 	private final Programmer leftProgrammer;
 	private final Programmer rightProgrammer;
 	private final Scoreboard scoreboard;
 
-	public Game(MyToolWindowFactory view, Timer timer, Programmer leftProgrammer, Programmer rightProgrammer,
+	public Game(PairHeroToolWindowFactory view, Timer timer, Programmer leftProgrammer, Programmer rightProgrammer,
 			Scoreboard scoreboard) {
 		this.view = view;
 		this.timer = timer;

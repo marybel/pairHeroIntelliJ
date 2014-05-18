@@ -16,17 +16,13 @@ import myToolWindow.time.TimeFormatter;
 import myToolWindow.time.Timer;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Alexey.Chursin
- * Date: Aug 25, 2010
- * Time: 2:09:00 PM
+ * IntelliJ version of the <a href="http://www.happyprog.com/pairhero/">PairHero
+ * plugin</a>. Ported by <a href="https://github.com/marybel">Marybel Archer</a>
  */
-public class MyToolWindowFactory implements ToolWindowFactory {
+public class PairHeroToolWindowFactory implements ToolWindowFactory {
 	public static final String BUTTON_LABEL_START = "Start";
 	public static final String BUTTON_LABEL_STOP = "Stop";
 	public static final String ICONS_PATH = "icons/";
-
-	private int messageDelayCounter;
 
 	private JButton startGameButton;
 	private JPanel myToolWindowContent;
@@ -41,13 +37,13 @@ public class MyToolWindowFactory implements ToolWindowFactory {
 	private Scoreboard scoreboard;
 	private Programmer leftProgrammer;
 	private Programmer rightProgrammer;
+	private int messageDelayCounter;
 
-	public MyToolWindowFactory() {
+	public PairHeroToolWindowFactory() {
 		scoreboard = new Scoreboard();
 
 		startGameButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// myToolWindow.hide(null);
 				if (startGameButton.getText() == BUTTON_LABEL_START) {
 					onStart();
 				} else {
