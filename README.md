@@ -1,1 +1,1 @@
-//TODO: Add dialog to pick character icon and player name input.
+Port of  <a href="http://www.happyprog.com/pairhero/" >PairHero</a> plugin to IntelliJ.
