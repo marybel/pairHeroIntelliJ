@@ -65,7 +65,7 @@ public class PairHeroToolWindowFactory implements ToolWindowFactory {
 				}
 			}
 		} catch (IllegalArgumentException ex) {
-			ex.printStackTrace();
+			System.out.println(ex.getMessage());
 		}
 		return null;
 	}
