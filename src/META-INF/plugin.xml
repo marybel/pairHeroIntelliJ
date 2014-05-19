@@ -2,7 +2,7 @@
   <name>PairHero</name>
   <description>IntelliJ version of PairHero plugin http://www.happyprog.com/pairhero/</description>
   <version>1.0</version>
-  <vendor>JetBrains</vendor>
+  <vendor>https://github.com/marybel</vendor>
 
     <idea-version since-build="135"/>
 
