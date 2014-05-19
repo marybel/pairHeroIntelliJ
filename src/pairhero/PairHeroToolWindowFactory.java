@@ -2,6 +2,7 @@ package pairhero;
 
 import com.intellij.openapi.extensions.Extensions;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowEP;
 import com.intellij.openapi.wm.ToolWindowFactory;
@@ -16,6 +17,7 @@ import pairhero.game.Programmer;
 import pairhero.game.Scoreboard;
 import pairhero.time.TimeFormatter;
 import pairhero.time.Timer;
+import pairhero.views.StartDialog;
 
 /**
  * IntelliJ version of the <a href="http://www.happyprog.com/pairhero/">PairHero
@@ -113,17 +115,24 @@ public class PairHeroToolWindowFactory implements ToolWindowFactory {
 	}
 
 	private boolean ableToCreatePlayers() {
-		// TODO: Add dialog to set names and player avatars
-		leftProgrammer.resetStats();
-		rightProgrammer.resetStats();
-		leftProgrammer.setName("Explorer");
-		rightProgrammer.setName("Wizard"/* dialog.getPlayerTwoName() */);
-		leftProgrammer.setAvatar("explorator"/* dialog.getPlayerOneAvatar() */);
-		rightProgrammer.setAvatar("wizard"/* dialog.getPlayerTwoAvatar() */);
-		scoreboard.resetStats();
-		updateScore(scoreLabel, Long.toString(scoreboard.getScore()));
+		StartDialog dialog = new StartDialog();
+		dialog.show();
 
-		return true;
+		if (dialog.getExitCode() == DialogWrapper.OK_EXIT_CODE) {
+			dialog.buttonPressed(dialog.getExitCode());
+			leftProgrammer.resetStats();
+			rightProgrammer.resetStats();
+			leftProgrammer.setName(dialog.getPlayerOneName());
+			rightProgrammer.setName(dialog.getPlayerTwoName());
+			leftProgrammer.setAvatar(dialog.getPlayerOneAvatar());
+			rightProgrammer.setAvatar(dialog.getPlayerTwoAvatar());
+			scoreboard.resetStats();
+			updateScore(scoreboard.getScore());
+
+			return true;
+		}
+
+		return false;
 	}
 
 	public void onGameFinished() {
