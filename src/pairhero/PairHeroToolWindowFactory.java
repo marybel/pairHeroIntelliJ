@@ -8,7 +8,6 @@ import com.intellij.openapi.wm.ToolWindowEP;
 import com.intellij.openapi.wm.ToolWindowFactory;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentFactory;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
@@ -33,6 +32,17 @@ public class PairHeroToolWindowFactory implements ToolWindowFactory {
 	private JPanel leftProgrammerPanel;
 	private JPanel rightProgrammerPanel;
 	private JPanel scorePanel;
+	private JLabel leftPlayerName;
+	private JLabel rightPlayerName;
+	private JLabel leftAvatar;
+	private JLabel rightAvatar;
+	private JLabel leftRoleLabel;
+	private JLabel rightRoleLabel;
+	private JLabel rightTimeAtKeyboardLabel;
+	private JLabel leftTimeAtKeyboardLabel;
+	private JPanel line1;
+	private JPanel line2;
+	private JPanel line3;
 	private JLabel scoreLabel;
 	private JLabel timerLabel;
 	private JLabel messageLabel;
@@ -78,28 +88,10 @@ public class PairHeroToolWindowFactory implements ToolWindowFactory {
 		Content content = contentFactory.createContent(myToolWindowContent, "", false);
 		toolWindow.getContentManager().addContent(content);
 
-		leftProgrammer = new Programmer(leftProgrammerPanel);
-		rightProgrammer = new Programmer(rightProgrammerPanel);
-		createScoreArea(scorePanel);
-	}
-
-	private void createScoreArea(JPanel scorePanel) {
-		JComponent line1 = new JPanel(new GridLayout(2, 1));
-		line1.add(new JLabel("Score: "));
-		scoreLabel = new JLabel("0");
-		line1.add(scoreLabel);
-		scorePanel.add(line1);
-
-		JComponent line2 = new JPanel(new GridLayout(2, 1));
-		messageLabel = new JLabel(getImageIcon("blank"));
-		line2.add(messageLabel);
-		scorePanel.add(line2);
-
-		JComponent line3 = new JPanel(new GridLayout(2, 1));
-		line3.add(new JLabel("Time Left: "));
-		this.timerLabel = new JLabel("25:00");
-		line3.add(timerLabel);
-		scorePanel.add(line3);
+		leftProgrammer = new Programmer(leftProgrammerPanel, leftPlayerName, leftAvatar, leftRoleLabel,
+				leftTimeAtKeyboardLabel);
+		rightProgrammer = new Programmer(rightProgrammerPanel, rightPlayerName, rightAvatar, rightRoleLabel,
+				rightTimeAtKeyboardLabel);
 	}
 
 	private void onStart() {
@@ -204,13 +196,6 @@ public class PairHeroToolWindowFactory implements ToolWindowFactory {
 
 	private ImageIcon getImageIcon(String imageName) {
 		return new ImageIcon(getClass().getResource(ICONS_PATH + imageName + ".png"));
-	}
-
-	private void createUIComponents() {
-		// TODO: place custom component creation code here
-		leftProgrammerPanel = new JPanel(new GridLayout(4, 1));
-		rightProgrammerPanel = new JPanel(new GridLayout(4, 1));
-		scorePanel = new JPanel(new GridLayout(3, 1));
 	}
 
 	public boolean isGameOngoing() {

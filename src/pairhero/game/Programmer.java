@@ -6,8 +6,8 @@ import pairhero.time.TimeFormatter;
 
 public class Programmer {
 	public static final String ICONS_PATH = "/pairhero/icons/";
-	private static Color DRIVER_COLOR;
-	private static Color OBSERVER_COLOR;
+	private static Color DRIVER_COLOR = new Color(58, 170, 53);
+	private static Color OBSERVER_COLOR = new Color(218, 218, 218);
 
 	private JLabel nameLabel;
 	private JLabel roleLabel;
@@ -21,26 +21,13 @@ public class Programmer {
 		Driving, Observing
 	}
 
-	public Programmer(JPanel programmerPanel) {
+	public Programmer(JPanel programmerPanel, JLabel nameLabel, JLabel avatar, JLabel roleLabel,
+			JLabel timeAtKeyboardLabel) {
 		this.panel = programmerPanel;
-		initializeUIControls(panel);
-	}
-
-	void initializeUIControls(JPanel programmerPanel) {
-		DRIVER_COLOR = new Color(58, 170, 53);
-		OBSERVER_COLOR = new Color(218, 218, 218);
-
-		nameLabel = new JLabel("Player");
-		programmerPanel.add(nameLabel);
-
-		avatar = new JLabel(getImageIcon("no-avatar"));
-		programmerPanel.add(avatar);
-
-		roleLabel = new JLabel(getImageIcon("red-keyboard"));
-		programmerPanel.add(roleLabel);
-		
-		timeAtKeyboardLabel = new JLabel("00:00");
-		programmerPanel.add(timeAtKeyboardLabel);
+		this.nameLabel = nameLabel;
+		this.avatar = avatar;
+		this.roleLabel = roleLabel;
+		this.timeAtKeyboardLabel = timeAtKeyboardLabel;
 	}
 
 	private ImageIcon getImageIcon(String imageName) {
