@@ -1,18 +1,21 @@
 package pairhero.views;
 
+import pairhero.UiHelper;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
 public class AvatarSelection {
-	public static final String ICONS_PATH = "/pairhero/icons/";
 	private JButton explorator;
 	private JButton king;
 	private JButton robin;
 	private JButton wizard;
+    private UiHelper uiHelper;
 
-	public AvatarSelection(JComponent composite) {
+    public AvatarSelection(JComponent composite) {
+        uiHelper = new UiHelper();
 		buildUI(composite);
 	}
 
@@ -21,19 +24,19 @@ public class AvatarSelection {
 		composite.add(group);
 		group.setLayout(new GridLayout(1, 4));
 
-		explorator = new JButton(getImageIcon("explorator"));
+		explorator = new JButton(uiHelper.getImageIcon("explorator"));
 		explorator.addActionListener(listener);
 		group.add(explorator);
 
-		king = new JButton(getImageIcon("king"));
+		king = new JButton(uiHelper.getImageIcon("king"));
 		king.addActionListener(listener);
 		group.add(king);
 
-		robin = new JButton(getImageIcon("robin"));
+		robin = new JButton(uiHelper.getImageIcon("robin"));
 		robin.addActionListener(listener);
 		group.add(robin);
 
-		wizard = new JButton(getImageIcon("wizard"));
+		wizard = new JButton(uiHelper.getImageIcon("wizard"));
 		wizard.addActionListener(listener);
 		group.add(wizard);
 	}
@@ -71,9 +74,5 @@ public class AvatarSelection {
 		}
 
 		return "no-avatar";
-	}
-
-	private ImageIcon getImageIcon(String imageName) {
-		return new ImageIcon(getClass().getResource(ICONS_PATH + imageName + ".png"));
 	}
 }

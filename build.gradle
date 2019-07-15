@@ -1,0 +1,38 @@
+plugins {
+    id 'java'
+    id 'groovy'
+    id "org.jetbrains.intellij" version "0.4.9"
+    id 'idea'
+}
+
+apply plugin: "org.jetbrains.intellij"
+apply plugin: "groovy"
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    // mandatory dependencies for using Spock
+    testCompile 'junit:junit:4.12'
+    testCompile "org.codehaus.groovy:groovy-all:2.4.17"
+    testCompile 'org.spockframework:spock-core:1.1-groovy-2.4'
+}
+
+sourceSets {
+    main {
+        java.srcDir("src/main")
+        resources.srcDir("src/resources")
+    }
+    test {
+        groovy {
+            srcDirs = ['src/test/groovy']
+        }
+    }
+}

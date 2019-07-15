@@ -21,7 +21,7 @@
               <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <icon value="pairhero/icons/no-avatar.png"/>
+              <icon value="icons/no-avatar.png"/>
               <text value=""/>
             </properties>
           </component>
@@ -30,7 +30,7 @@
               <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <icon value="pairhero/icons/red-keyboard.png"/>
+              <icon value="icons/red-keyboard.png"/>
               <text value=""/>
             </properties>
           </component>
@@ -75,7 +75,7 @@
               <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <icon value="pairhero/icons/no-avatar.png"/>
+              <icon value="icons/no-avatar.png"/>
               <text value=""/>
             </properties>
           </component>
@@ -84,7 +84,7 @@
               <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <icon value="pairhero/icons/red-keyboard.png"/>
+              <icon value="icons/red-keyboard.png"/>
               <text value=""/>
             </properties>
           </component>
@@ -153,7 +153,7 @@
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <icon value="pairhero/icons/blank.png"/>
+                  <icon value="icons/blank.png"/>
                   <text value=""/>
                 </properties>
               </component>

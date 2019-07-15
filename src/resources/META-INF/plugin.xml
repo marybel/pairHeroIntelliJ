@@ -1,0 +1,29 @@
+<idea-plugin>
+  <id>marybel.archer.pairhero</id>
+  <name>PairHero</name>
+  <version>1.0</version>
+  <vendor url="https://github.com/marybel">https://github.com/marybel</vendor>
+
+  <description>PairHero http://www.happyprog.com/pairhero/ plugin for IntelliJ</description>
+
+  <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
+  <idea-version since-build="192.5728"/>
+
+  <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+       on how to target different products -->
+  <!-- uncomment to enable plugin in all products
+  <depends>com.intellij.modules.lang</depends>
+  -->
+
+  <extensions defaultExtensionNs="com.intellij">
+      <toolWindow id="PairHero" secondary="true" icon="/icons/icon.png" anchor="right" factoryClass="pairhero.PairHeroToolWindowFactory">
+      </toolWindow>
+      <testStatusListener implementation="pairhero.JUnitListener"/>
+      <refactoring.helper implementation="pairhero.RefactoringHelperListener"/>
+  </extensions>
+
+  <actions>
+    <!-- Add your actions here -->
+  </actions>
+
+</idea-plugin>
