@@ -3,11 +3,13 @@ package pairhero;
 import com.intellij.execution.testframework.AbstractTestProxy;
 import com.intellij.execution.testframework.TestStatusListener;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 //TODO: Make this into a state machine that can prevent green test from counting when they should not.
 //TODO: Add logging
 public class JUnitListener extends TestStatusListener {
     private PairHeroToolWindowFactory pairHeroToolWindowFactory;
-    private Boolean previousTestPassed;
+    private AtomicBoolean previousTestPassed;
 
     public JUnitListener() {
         pairHeroToolWindowFactory = PairHeroToolWindowFactory.getToolWindowFactory();
@@ -15,6 +17,9 @@ public class JUnitListener extends TestStatusListener {
 
     @Override
     public void testSuiteFinished(AbstractTestProxy abstractTestProxy) {
+        if (previousTestPassed == null) {
+            previousTestPassed = new AtomicBoolean(true);
+        }
         if (pairHeroToolWindowFactory != null) {
             if (pairHeroToolWindowFactory.isGameOngoing()) {
                 notifyTestSuiteFinished(abstractTestProxy);
@@ -38,16 +43,14 @@ public class JUnitListener extends TestStatusListener {
     }
 
     private void onTestPass() {
-        if (previousTestPassed == Boolean.FALSE) {
+        if (previousTestPassed.compareAndSet(false, true)) {
             pairHeroToolWindowFactory.onGreenTest();
         }
-        previousTestPassed = Boolean.TRUE;
     }
 
     private void onTestFailed() {
-        if (previousTestPassed != Boolean.FALSE) {
+        if (previousTestPassed.compareAndSet(true, false)) {
             pairHeroToolWindowFactory.onSwitchRole();
         }
-        previousTestPassed = Boolean.FALSE;
     }
 }

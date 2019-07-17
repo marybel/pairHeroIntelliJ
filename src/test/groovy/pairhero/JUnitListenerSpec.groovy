@@ -3,11 +3,17 @@ package pairhero
 import com.intellij.execution.testframework.AbstractTestProxy
 import spock.lang.Specification
 
-class JUnitListenerSpec extends Specification {
-    JUnitListener jUnitListener = new JUnitListener()
+import java.util.concurrent.atomic.AtomicBoolean
 
-    def "Given the game is stopped, previous test status should be cleared after current tests finish"() {
-        given:
+class JUnitListenerSpec extends Specification {
+    JUnitListener jUnitListener
+
+    def "setup"() {
+        jUnitListener = new JUnitListener()
+    }
+
+    def "previous test status should be cleared after current tests finish"() {
+        given: "game is stopped"
         gameIsStopped()
 
         when:
@@ -18,16 +24,16 @@ class JUnitListenerSpec extends Specification {
     }
 
 
-    def "Given the game has just started, when a test is failing, the players should switch roles"() {
-        given:
+    def "players should switch roles"() {
+        given: "the game has just started"
         gameHasJustStarted()
 
-        when:
+        when: "a test is failing"
         jUnitListener.testSuiteFinished(atLeastOneTestIsFailing())
 
         then:
         1 * jUnitListener.pairHeroToolWindowFactory.onSwitchRole()
-        !jUnitListener.previousTestPassed
+        !jUnitListener.previousTestPassed.get()
     }
 
 
@@ -43,8 +49,8 @@ class JUnitListenerSpec extends Specification {
         jUnitListener.previousTestPassed
     }
 
-    def "Given the game is ongoing and all test have just been fixed, the players should get points"() {
-        given:
+    def "players should get points"() {
+        given: "game is ongoing and all test have just been fixed"
         lastTestRunFailed()
         gameIsOnGoing()
 
@@ -53,7 +59,7 @@ class JUnitListenerSpec extends Specification {
 
         then:
         1 * jUnitListener.pairHeroToolWindowFactory.onGreenTest()
-        jUnitListener.previousTestPassed
+        jUnitListener.previousTestPassed.get()
     }
 
 
@@ -83,11 +89,11 @@ class JUnitListenerSpec extends Specification {
     }
 
     private void lastTestRunFailed() {
-        jUnitListener.previousTestPassed = Boolean.FALSE
+        jUnitListener.previousTestPassed = new AtomicBoolean(Boolean.FALSE)
     }
 
     private void lastTestRunPassed() {
-        jUnitListener.previousTestPassed = Boolean.TRUE
+        jUnitListener.previousTestPassed = new AtomicBoolean(Boolean.TRUE)
     }
 
     private AbstractTestProxy atLeastOneTestIsFailing() {
@@ -103,7 +109,6 @@ class JUnitListenerSpec extends Specification {
     }
 
     private gameHasJustStarted() {
-        jUnitListener.previousTestPassed = null
         gameIsOnGoing()
     }
 }
