@@ -4,7 +4,7 @@ import com.intellij.execution.testframework.AbstractTestProxy
 import spock.lang.Specification
 
 class JUnitListenerSpec extends Specification {
-    JUnitListener jUnitListener = new JUnitListener();
+    JUnitListener jUnitListener = new JUnitListener()
 
     def "Given the game is stopped, previous test status should be cleared after current tests finish"() {
         given:
